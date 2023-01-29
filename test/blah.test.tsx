@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Thing } from '../src';
-import {render, waitFor, screen} from "@testing-library/react";
-import '@testing-library/jest-dom/extend-expect'
+import { render, waitFor, screen } from "@testing-library/react";
+import '@testing-library/jest-dom/extend-expect';
 import useToggle from "../src";
 
 const App = () => {
@@ -10,7 +10,7 @@ const App = () => {
 
   React.useEffect(() => {
     toggle()
-  },[])
+  },[]);
 
   if(value) {
     return <div>yes!</div>
@@ -28,10 +28,10 @@ describe('it', () => {
 
 describe('toggle', () => {
   test('toggle with hook', async () => {
-    render(<App />)
+    render(<App />);
     await waitFor(async () => {
-          const yes = await screen.findAllByText('yes!')
-          expect(yes[0]).toBeInTheDocument()
+          const yes = await screen.findAllByText('yes!');
+          expect(yes[0]).toBeInTheDocument();
     })
-  })
-})
+  });
+});
