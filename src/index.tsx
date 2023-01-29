@@ -9,9 +9,9 @@ export default function useToggle(): [true | false, () => void] {
   const [value, setValue] = React.useState(false);
 
   return [
-      value,
-      () => {
-      setValue(old => !old);
-      },
+    value,
+    () => {
+      setValue((old) => !old);
+    },
   ];
 }
