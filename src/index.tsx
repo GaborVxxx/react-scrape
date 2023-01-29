@@ -5,13 +5,13 @@ export const Thing = () => {
   return <div>the snozzberries taste like snozzberries</div>;
 };
 
-export default  function useToggle(): [true | false, () => void] {
+export default function useToggle(): [true | false, () => void] {
   const [value, setValue] = React.useState(false);
 
-  return [
-      value,
-      () => {
-         setValue(old => !old)
-      }
-  ]
-};
+    return [
+        value,
+        () => {
+            setValue(old => !old);
+        },
+    ];
+}
