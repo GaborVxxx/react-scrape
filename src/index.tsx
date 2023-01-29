@@ -8,10 +8,5 @@ export const Thing = () => {
 export default function useToggle(): [true | false, () => void] {
   const [value, setValue] = React.useState(false);
 
-    return [
-        value,
-        () => {
-            setValue(old => !old);
-        },
-    ];
+  return [value, () => {setValue(old => !old);},];
 }
