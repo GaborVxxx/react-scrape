@@ -3,6 +3,15 @@
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GaborVxxx/react-scrape.git"
+  },
+  "description": "React Typescript library with useful re-usable components and functions.",
+  "keywords": [
+    "react",
+    "Typescript"
+  ],
   "files": [
     "dist",
     "src"
