@@ -5,20 +5,28 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "start:W": "tsdx watch"
   },
   "dependencies": {
-    "react-app-polyfill": "^1.0.0"
+    "react": "^18.2.0",
+    "react-app-polyfill": "^1.0.0",
+    "react-dom": "^18.2.0"
   },
   "alias": {
     "react": "../node_modules/react",
-    "react-dom": "../node_modules/react-dom/profiling",
+    "react-dom": "../node_modules/react-dom",
     "scheduler/tracing": "../node_modules/scheduler/tracing-profiling"
   },
   "devDependencies": {
-    "@types/react": "^16.9.11",
-    "@types/react-dom": "^16.8.4",
-    "parcel": "^1.12.3",
-    "typescript": "^3.4.5"
+    "@types/react": "^16.14.35",
+    "@types/react-dom": "^16.9.17",
+    "assert": "^2.0.0",
+    "console-browserify": "^1.2.0",
+    "parcel": "^2.7.0",
+    "parcel-plugin-nuke-dist": "^1.0.1",
+    "process": "^0.11.10",
+    "typescript": "^3.4.5",
+    "util": "^0.12.5"
   }
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // Delete me
 export const Thing = () => {
-  return <div>the snozzberries taste like snozzberries</div>;
+  return <div>FUCK THE FUCK Kkk snozzberries like snozzberries</div>;
 };
 
 export default function useToggle(): [true | false, () => void] {
