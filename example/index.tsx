@@ -18,9 +18,11 @@ const App = () => {
         position={0}
         b_color={'blue'}
         speed={1}
-        arrow={1}
+        arrow={2}
         arrowDist={20}
         imgHeight={500}
+        style={{ borderRadius: '10px' }}
+        buttonStyle={{ opacity: 0.5 }}
       />
     </div>
   );

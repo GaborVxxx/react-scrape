@@ -18,8 +18,7 @@ export function getMeta(url: string, callback: Function) {
 
 export interface PropIMGQ {
   img_url: string;
-  title: string;
-  desc: string | null;
+  //title: string;
   position: number;
 }
 
@@ -31,6 +30,8 @@ export interface Prop {
   arrow?: number;
   arrowDist?: number;
   imgHeight?: number;
+  style?: {};
+  buttonStyle?: {};
 }
 
 const Slider = styled.section`
@@ -94,6 +95,8 @@ export const TransformSlider: React.FC<Prop> = ({
   arrow: arrowNum,
   arrowDist: arrowDistance,
   imgHeight: imgHeight,
+  style: style,
+  buttonStyle: buttonStyle,
 }) => {
   // error if img prop list is missing just in case:)
   React.useEffect(() => {
@@ -122,6 +125,41 @@ export const TransformSlider: React.FC<Prop> = ({
       );
     }
   }, [position]);
+
+  // additional style for buttons
+  const [b_style, setB_style] = React.useState({});
+
+  React.useEffect(() => {
+    if (buttonStyle) {
+      setB_style(buttonStyle);
+    }
+    return () => setB_style({});
+  }, [buttonStyle]);
+
+  // additional style for image, height and width can not be edited true this prop, will be removed from object!
+  const [imgStyle, setImgStyle] = React.useState({});
+
+  React.useEffect(() => {
+    if (style) {
+      if ('height' in style || 'width' in style) {
+        console.error(
+          'TransformSlider component image height and width property can not be edited with inline style. To edit the image height and ratio please use the imgHeight parameter.'
+        );
+        if ('height' in style) {
+          console.log('delete H');
+          delete style['height'];
+        }
+        if ('width' in style) {
+          console.log('delete W');
+          delete style['width'];
+        }
+        setImgStyle(style);
+      } else {
+        setImgStyle(style);
+      }
+    }
+    return () => setImgStyle({});
+  }, [style]);
 
   // image height and ratio
   const [height, setHeight] = React.useState(500);
@@ -220,8 +258,15 @@ export const TransformSlider: React.FC<Prop> = ({
   }, [transition]);
 
   React.useEffect(() => {
-    console.log(next);
+    //console.log(next);
   }, [next]);
+
+  // disable button while transition is animating. Use the "trans" state to time how long the button get disabled!
+  const [buttonDisable, setButtonDisable] = React.useState(true);
+
+  const ResetButtonDisable = () => {
+    setButtonDisable(true);
+  };
 
   //size image
   const [w, setW] = React.useState(0);
@@ -262,39 +307,81 @@ export const TransformSlider: React.FC<Prop> = ({
     };
   }, [position]);
 
-  const nextSlide = React.useCallback(() => {
-    setNext(next === length - 1 ? 0 : next + 1);
-    return () => {
-      setNext(0);
-      setUpdated(false);
-    };
-  }, [next, length]);
+  const nextSlide = React.useCallback(
+    (tranTime: number) => {
+      // disable button
+      setButtonDisable(false);
+      // make a slide
+      setNext(next === length - 1 ? 0 : next + 1);
+      // the time out extended with 2 m sec to make sure the button can not be pressed just when the transition is ended!
+      const buttonTimeout = setTimeout(ResetButtonDisable, tranTime * 1300);
+      return () => {
+        setNext(0);
+        setUpdated(false);
+        clearTimeout(buttonTimeout);
+      };
+    },
+    [next, length]
+  );
 
-  const prevSlide = React.useCallback(() => {
-    setNext(next === 0 ? length - 1 : next - 1);
-    return () => {
-      setNext(0);
-      setUpdated(false);
-    };
-  }, [next, length]);
+  const prevSlide = React.useCallback(
+    (tranTime: number) => {
+      // disable button
+      setButtonDisable(false);
+      // make a slide
+      setNext(next === 0 ? length - 1 : next - 1);
+      // the time out extended with 2 m sec to make sure the button can not be pressed just when the transition is ended!
+      const buttonTimeout = setTimeout(ResetButtonDisable, tranTime * 1300);
+      return () => {
+        setNext(0);
+        setUpdated(false);
+        clearTimeout(buttonTimeout);
+      };
+    },
+    [next, length]
+  );
 
   return (
     <>
       {updated ? (
         <>
           <Slider>
-            <LeftArrow onClick={prevSlide} color={color} dist={arrowD}>
-              {leftArrow}
-            </LeftArrow>
-            <RightArrow onClick={nextSlide} color={color} dist={arrowD}>
-              {rightArrow}
-            </RightArrow>
+            {buttonDisable ? (
+              <>
+                <LeftArrow
+                  onClick={() => prevSlide(trans)}
+                  color={color}
+                  dist={arrowD}
+                  style={b_style}
+                >
+                  {leftArrow}
+                </LeftArrow>
+                <RightArrow
+                  onClick={() => nextSlide(trans)}
+                  color={color}
+                  dist={arrowD}
+                  style={b_style}
+                >
+                  {rightArrow}
+                </RightArrow>
+              </>
+            ) : (
+              <>
+                <LeftArrow color={color} dist={arrowD} style={b_style}>
+                  {leftArrow}
+                </LeftArrow>
+                <RightArrow color={color} dist={arrowD} style={b_style}>
+                  {rightArrow}
+                </RightArrow>
+              </>
+            )}
             {loaded ? (
               <ImageContainer
                 url={prop[next].img_url}
                 width={w / ratio}
                 transition={trans}
                 height={height}
+                style={imgStyle}
               />
             ) : null}
           </Slider>
