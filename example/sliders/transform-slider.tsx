@@ -37,6 +37,7 @@ export interface Prop {
   autoPlaySpeed?: number;
   titlePosition?: string;
   showTitle?: boolean;
+  titleStyle?: {};
 }
 
 const Slider = styled.section`
@@ -158,6 +159,7 @@ export const TransformSlider: React.FC<Prop> = ({
   autoPlaySpeed: autoPlaySpeed,
   titlePosition: titlePosition,
   showTitle: showTitle,
+  titleStyle: titleStyle,
 }) => {
   // error if img prop list is missing just in case:) ----------
   React.useEffect(() => {
@@ -246,6 +248,16 @@ export const TransformSlider: React.FC<Prop> = ({
     }
     return () => setAuto(false);
   }, [autoPlay]);
+
+  // additional style for title ----------
+  const [t_style, setT_style] = React.useState({});
+
+  React.useEffect(() => {
+    if (titleStyle) {
+      setT_style(titleStyle);
+    }
+    return () => setT_style({});
+  }, [titleStyle]);
 
   // additional style for buttons ----------
   const [b_style, setB_style] = React.useState({});
@@ -546,7 +558,7 @@ export const TransformSlider: React.FC<Prop> = ({
                       transition={trans}
                       position={titlePositionState}
                     >
-                      <Title>
+                      <Title style={t_style}>
                         {prop[next].title ? prop[next].title : null}
                       </Title>
                     </TitleContainer>
