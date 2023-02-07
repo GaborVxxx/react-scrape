@@ -17,7 +17,7 @@ const App = () => {
         prop={TransformSliderData}
         position={0}
         b_color={'blue'}
-        speed={1}
+        speed={2}
         arrow={2}
         arrowDist={20}
         imgHeight={500}
@@ -25,6 +25,8 @@ const App = () => {
         buttonStyle={{ opacity: 0.5 }}
         autoPlay={true}
         autoPlaySpeed={2}
+        titlePosition={'bottom'}
+        showTitle={true}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { keyframes } from 'styled-components';
 // icons
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa';
@@ -32,8 +33,10 @@ export interface Prop {
   imgHeight?: number;
   style?: {};
   buttonStyle?: {};
-  autoPlay?: boolean
-  autoPlaySpeed?: number
+  autoPlay?: boolean;
+  autoPlaySpeed?: number;
+  titlePosition?: string;
+  showTitle?: boolean;
 }
 
 const Slider = styled.section`
@@ -42,6 +45,7 @@ const Slider = styled.section`
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
 `;
 
 const LeftArrow = styled.div<{ color: string; dist: number }>`
@@ -87,6 +91,57 @@ const ImageContainer = styled.div<{
   background-position: center center;
   opacity: 1;
   transition: all ${(p) => p.transition}s 0.2s ease;
+  position: relative;
+`;
+
+const Title = styled.p`
+  text-align: center;
+`;
+
+const fadeInTop = keyframes`
+0%
+{
+    opacity: 0;
+    transform: translateY(50px);
+}
+50%
+{
+    opacity: 0.25;
+}
+100%
+{
+    opacity: 1;
+    transform: translateY(0px);
+}
+`;
+
+const fadeInBottom = keyframes`
+0%
+{
+    opacity: 0;
+    transform: translateY(-50px);
+}
+50%
+{
+    opacity: 0.25;
+}
+100%
+{
+    opacity: 1;
+    transform: translateY(0px);
+}
+`;
+
+const TitleContainer = styled.div<{
+  transition: number;
+  position: string;
+}>`
+  ${(p) => p.position}: 0;
+  animation: ${(p) => (p.position === 'top' ? fadeInTop : fadeInBottom)}
+    ${(p) => p.transition / 2}s ease;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
 `;
 
 export const TransformSlider: React.FC<Prop> = ({
@@ -98,7 +153,11 @@ export const TransformSlider: React.FC<Prop> = ({
   arrowDist: arrowDistance,
   imgHeight: imgHeight,
   style: style,
-  buttonStyle: buttonStyle, autoPlay:autoPlay, autoPlaySpeed:autoPlaySpeed
+  buttonStyle: buttonStyle,
+  autoPlay: autoPlay,
+  autoPlaySpeed: autoPlaySpeed,
+  titlePosition: titlePosition,
+  showTitle: showTitle,
 }) => {
   // error if img prop list is missing just in case:) ----------
   React.useEffect(() => {
@@ -128,30 +187,65 @@ export const TransformSlider: React.FC<Prop> = ({
     }
   }, [position]);
 
-  // auto play images ----------
-  const [auto, setAuto] = React.useState(false)
-  const [turnOffAuto, setTurnOffAuto] = React.useState(false)
-  const [autoPlaySpeedState, setAutoPlaySpeedState] = React.useState(3)
-  const autoPlaySpeedRange = [1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5]
+  // show title ---------
+  const [showTitleState, setShowTitleState] = React.useState(false);
 
   React.useEffect(() => {
-    if(autoPlaySpeed && autoPlaySpeedRange.includes(autoPlaySpeed)){
-      setAutoPlaySpeedState(autoPlaySpeed)
+    if (showTitle) {
+      setShowTitleState(showTitle);
     }
-    if(autoPlaySpeed && !autoPlaySpeedRange.includes(autoPlaySpeed)){
-      console.error(`TransformSlider component "autoPlaySpeed" prop has a limited range of numbers available. The options are:${autoPlaySpeedRange}. Every other value will be ignored and set the timer to its default of 3`)
+    return () => setShowTitleState(false);
+  }, [showTitle]);
+
+  // title position ----------
+  const [titlePositionState, setTitlePositionState] = React.useState('top');
+  const titlePositionOptions = ['top', 'bottom'];
+
+  React.useEffect(() => {
+    console.log(titlePosition);
+  }, [titlePosition]);
+
+  React.useEffect(() => {
+    if (titlePosition && titlePositionOptions.includes(titlePosition)) {
+      setTitlePositionState(titlePosition);
     }
-  },[autoPlaySpeed])
+    if (titlePosition && !titlePositionOptions.includes(titlePosition)) {
+      console.error(
+        `TransformSlider component "titlePosition" prop options: ${titlePositionOptions}. Please select a valid value or your input will be ignored.`
+      );
+    }
+  }, [titlePosition]);
+
+  // auto play images ----------
+  const [auto, setAuto] = React.useState(false);
+  const [turnOffAuto, setTurnOffAuto] = React.useState(false);
+  const [autoPlaySpeedState, setAutoPlaySpeedState] = React.useState(3);
+  const autoPlaySpeedRange = [
+    1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5,
+    2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4, 4.1,
+    4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5,
+  ];
+
+  React.useEffect(() => {
+    if (autoPlaySpeed && autoPlaySpeedRange.includes(autoPlaySpeed)) {
+      setAutoPlaySpeedState(autoPlaySpeed);
+    }
+    if (autoPlaySpeed && !autoPlaySpeedRange.includes(autoPlaySpeed)) {
+      console.error(
+        `TransformSlider component "autoPlaySpeed" prop has a limited range of numbers available. The options are:${autoPlaySpeedRange}. Every other value will be ignored and set the timer to its default of 3`
+      );
+    }
+  }, [autoPlaySpeed]);
 
   React.useEffect(() => {
     // if we have the "autoPlay" prop=true we set the state "auto"
-    if(autoPlay){
-      setAuto(autoPlay)
+    if (autoPlay) {
+      setAuto(autoPlay);
     } else {
-      setAuto(false)
+      setAuto(false);
     }
-    return () => setAuto(false)
-  },[autoPlay])
+    return () => setAuto(false);
+  }, [autoPlay]);
 
   // additional style for buttons ----------
   const [b_style, setB_style] = React.useState({});
@@ -173,11 +267,9 @@ export const TransformSlider: React.FC<Prop> = ({
           'TransformSlider component image height and width property can not be edited with inline style. To edit the image height and ratio please use the imgHeight parameter.'
         );
         if ('height' in style) {
-          console.log('delete H');
           delete style['height'];
         }
         if ('width' in style) {
-          console.log('delete W');
           delete style['width'];
         }
         setImgStyle(style);
@@ -211,15 +303,15 @@ export const TransformSlider: React.FC<Prop> = ({
     if a=f + to=t = arrow
      */
     let next;
-    if(auto && !turnOffAuto){
-      next = setInterval(autoNext, autoPlaySpeedState * 1000)
+    if (auto && !turnOffAuto) {
+      next = setInterval(autoNext, autoPlaySpeedState * 1000);
     } else {
-      if(next){
-        clearInterval(next)
+      if (next) {
+        clearInterval(next);
       }
     }
-    return () => clearInterval(next)
-  },[auto, setAuto, turnOffAuto, next, autoPlaySpeedState])
+    return () => clearInterval(next);
+  }, [auto, setAuto, turnOffAuto, next, autoPlaySpeedState]);
 
   // set arrow distance ----------
   const [arrowD, setArrowD] = React.useState(25);
@@ -297,7 +389,7 @@ export const TransformSlider: React.FC<Prop> = ({
     }
     if (transition && !speedLimit.includes(transition)) {
       console.error(
-        'TransformSlider component speed limit is excited. The range is 0.5 - 3. Please change the value to a number from this range.'
+        `TransformSlider component speed limit is excited. The range is ${speedLimit}. Please change the value to a number from this range.`
       );
     }
     return () => setTrans(1);
@@ -357,8 +449,8 @@ export const TransformSlider: React.FC<Prop> = ({
   const nextSlide = React.useCallback(
     (tranTime: number) => {
       // turn of auto play if not off
-      if(!turnOffAuto){
-        setTurnOffAuto(true)
+      if (!turnOffAuto) {
+        setTurnOffAuto(true);
       }
       // disable button
       setButtonDisable(false);
@@ -378,8 +470,8 @@ export const TransformSlider: React.FC<Prop> = ({
   const prevSlide = React.useCallback(
     (tranTime: number) => {
       // turn of auto play if not off
-      if(!turnOffAuto){
-        setTurnOffAuto(true)
+      if (!turnOffAuto) {
+        setTurnOffAuto(true);
       }
       // disable button
       setButtonDisable(false);
@@ -396,17 +488,14 @@ export const TransformSlider: React.FC<Prop> = ({
     [next, length, turnOffAuto, setTurnOffAuto]
   );
 
-  const autoNext = React.useCallback(
-      () => {
-        // make a slide
-        setNext(next === length - 1 ? 0 : next + 1);
-        return () => {
-          setNext(0);
-          setUpdated(false);
-        };
-      },
-      [next, length]
-  );
+  const autoNext = React.useCallback(() => {
+    // make a slide
+    setNext(next === length - 1 ? 0 : next + 1);
+    return () => {
+      setNext(0);
+      setUpdated(false);
+    };
+  }, [next, length]);
 
   return (
     <>
@@ -449,13 +538,29 @@ export const TransformSlider: React.FC<Prop> = ({
                 transition={trans}
                 height={height}
                 style={imgStyle}
-              />
+              >
+                {showTitleState ? (
+                  <>
+                    <TitleContainer
+                      key={prop[next].title ? prop[next].title : null}
+                      transition={trans}
+                      position={titlePositionState}
+                    >
+                      <Title>
+                        {prop[next].title ? prop[next].title : null}
+                      </Title>
+                    </TitleContainer>
+                  </>
+                ) : null}
+              </ImageContainer>
             ) : null}
           </Slider>
         </>
       ) : (
         <>
-          <h2 style={{textAlign:'center'}}>ERROR! Can not display the images.</h2>
+          <h2 style={{ textAlign: 'center' }}>
+            ERROR! Can not display the images.
+          </h2>
         </>
       )}
     </>
