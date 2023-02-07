@@ -18,7 +18,7 @@ export function getMeta(url: string, callback: Function) {
 
 export interface PropIMGQ {
   img_url: string;
-  //title: string;
+  title?: string | null;
   position: number;
 }
 
@@ -32,6 +32,8 @@ export interface Prop {
   imgHeight?: number;
   style?: {};
   buttonStyle?: {};
+  autoPlay?: boolean
+  autoPlaySpeed?: number
 }
 
 const Slider = styled.section`
@@ -96,9 +98,9 @@ export const TransformSlider: React.FC<Prop> = ({
   arrowDist: arrowDistance,
   imgHeight: imgHeight,
   style: style,
-  buttonStyle: buttonStyle,
+  buttonStyle: buttonStyle, autoPlay:autoPlay, autoPlaySpeed:autoPlaySpeed
 }) => {
-  // error if img prop list is missing just in case:)
+  // error if img prop list is missing just in case:) ----------
   React.useEffect(() => {
     if (!prop) {
       console.error(
@@ -107,7 +109,7 @@ export const TransformSlider: React.FC<Prop> = ({
     }
   }, [prop]);
 
-  // error if position arg is missing just in case:)
+  // error if position arg is missing just in case:) ----------
   React.useEffect(() => {
     // check if the value provided is in the range
     if (position === 0 || position) {
@@ -126,7 +128,32 @@ export const TransformSlider: React.FC<Prop> = ({
     }
   }, [position]);
 
-  // additional style for buttons
+  // auto play images ----------
+  const [auto, setAuto] = React.useState(false)
+  const [turnOffAuto, setTurnOffAuto] = React.useState(false)
+  const [autoPlaySpeedState, setAutoPlaySpeedState] = React.useState(3)
+  const autoPlaySpeedRange = [1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5]
+
+  React.useEffect(() => {
+    if(autoPlaySpeed && autoPlaySpeedRange.includes(autoPlaySpeed)){
+      setAutoPlaySpeedState(autoPlaySpeed)
+    }
+    if(autoPlaySpeed && !autoPlaySpeedRange.includes(autoPlaySpeed)){
+      console.error(`TransformSlider component "autoPlaySpeed" prop has a limited range of numbers available. The options are:${autoPlaySpeedRange}. Every other value will be ignored and set the timer to its default of 3`)
+    }
+  },[autoPlaySpeed])
+
+  React.useEffect(() => {
+    // if we have the "autoPlay" prop=true we set the state "auto"
+    if(autoPlay){
+      setAuto(autoPlay)
+    } else {
+      setAuto(false)
+    }
+    return () => setAuto(false)
+  },[autoPlay])
+
+  // additional style for buttons ----------
   const [b_style, setB_style] = React.useState({});
 
   React.useEffect(() => {
@@ -136,7 +163,7 @@ export const TransformSlider: React.FC<Prop> = ({
     return () => setB_style({});
   }, [buttonStyle]);
 
-  // additional style for image, height and width can not be edited true this prop, will be removed from object!
+  // additional style for image, height and width can not be edited true this prop, will be removed from object! ----------
   const [imgStyle, setImgStyle] = React.useState({});
 
   React.useEffect(() => {
@@ -161,7 +188,7 @@ export const TransformSlider: React.FC<Prop> = ({
     return () => setImgStyle({});
   }, [style]);
 
-  // image height and ratio
+  // image height and ratio ----------
   const [height, setHeight] = React.useState(500);
 
   React.useEffect(() => {
@@ -175,7 +202,26 @@ export const TransformSlider: React.FC<Prop> = ({
   const [updated, setUpdated] = React.useState(false);
   const length = prop.length;
 
-  // set arrow distance
+  // auto play image IF!!! Listening to the "next" img state is what re trigger this useEffect!
+  React.useEffect(() => {
+    /*
+    if a=f + to=f = arrow
+    if a=t + to=f = auto  <-- only time its auto play if autoPay prop set true and user didnt press any buttons
+    if a=t + to=t = arrow
+    if a=f + to=t = arrow
+     */
+    let next;
+    if(auto && !turnOffAuto){
+      next = setInterval(autoNext, autoPlaySpeedState * 1000)
+    } else {
+      if(next){
+        clearInterval(next)
+      }
+    }
+    return () => clearInterval(next)
+  },[auto, setAuto, turnOffAuto, next, autoPlaySpeedState])
+
+  // set arrow distance ----------
   const [arrowD, setArrowD] = React.useState(25);
   const arrowDistanceList = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
@@ -194,7 +240,7 @@ export const TransformSlider: React.FC<Prop> = ({
     return () => setArrowD(25);
   }, [arrowDistance]);
 
-  // set arrow option
+  // set arrow option ----------
   const [arrow, setArrow] = React.useState(0);
   const arrowList = [0, 1, 2, 3];
   const [leftArrow, setLeftArrow] = React.useState(<FaArrowAltCircleLeft />);
@@ -228,7 +274,7 @@ export const TransformSlider: React.FC<Prop> = ({
     }
   }, [arrow]);
 
-  // button colour
+  // button colour ----------
   const [color, setColor] = React.useState('#7bcb7e');
 
   React.useEffect(() => {
@@ -238,7 +284,7 @@ export const TransformSlider: React.FC<Prop> = ({
     return () => setColor('#7bcb7e');
   }, [b_color]);
 
-  // transition speed
+  // transition speed ----------
   const [trans, setTrans] = React.useState(1);
   const speedLimit = [
     0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2,
@@ -261,14 +307,14 @@ export const TransformSlider: React.FC<Prop> = ({
     //console.log(next);
   }, [next]);
 
-  // disable button while transition is animating. Use the "trans" state to time how long the button get disabled!
+  // disable button while transition is animating. Use the "trans" state to time how long the button get disabled! ----------
   const [buttonDisable, setButtonDisable] = React.useState(true);
 
   const ResetButtonDisable = () => {
     setButtonDisable(true);
   };
 
-  //size image
+  //size image ----------
   const [w, setW] = React.useState(0);
   const [h, setH] = React.useState(0);
   const [ratio, setRatio] = React.useState(0);
@@ -307,8 +353,13 @@ export const TransformSlider: React.FC<Prop> = ({
     };
   }, [position]);
 
+  // functions for slide image ----------
   const nextSlide = React.useCallback(
     (tranTime: number) => {
+      // turn of auto play if not off
+      if(!turnOffAuto){
+        setTurnOffAuto(true)
+      }
       // disable button
       setButtonDisable(false);
       // make a slide
@@ -321,11 +372,15 @@ export const TransformSlider: React.FC<Prop> = ({
         clearTimeout(buttonTimeout);
       };
     },
-    [next, length]
+    [next, length, turnOffAuto, setTurnOffAuto]
   );
 
   const prevSlide = React.useCallback(
     (tranTime: number) => {
+      // turn of auto play if not off
+      if(!turnOffAuto){
+        setTurnOffAuto(true)
+      }
       // disable button
       setButtonDisable(false);
       // make a slide
@@ -338,7 +393,19 @@ export const TransformSlider: React.FC<Prop> = ({
         clearTimeout(buttonTimeout);
       };
     },
-    [next, length]
+    [next, length, turnOffAuto, setTurnOffAuto]
+  );
+
+  const autoNext = React.useCallback(
+      () => {
+        // make a slide
+        setNext(next === length - 1 ? 0 : next + 1);
+        return () => {
+          setNext(0);
+          setUpdated(false);
+        };
+      },
+      [next, length]
   );
 
   return (
@@ -388,7 +455,7 @@ export const TransformSlider: React.FC<Prop> = ({
         </>
       ) : (
         <>
-          <h2>ERROR! Can not display the images please reload the page.</h2>
+          <h2 style={{textAlign:'center'}}>ERROR! Can not display the images.</h2>
         </>
       )}
     </>

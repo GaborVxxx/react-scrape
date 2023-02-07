@@ -23,6 +23,8 @@ const App = () => {
         imgHeight={500}
         style={{ borderRadius: '10px' }}
         buttonStyle={{ opacity: 0.5 }}
+        autoPlay={true}
+        autoPlaySpeed={2}
       />
     </div>
   );
