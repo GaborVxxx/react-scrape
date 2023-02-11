@@ -1,11 +1,11 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+//import * as ReactDOM from 'react-dom';
 import {
   render,
   screen,
-  waitFor,
-  logRoles,
-  prettyDOM,
+  //waitFor,
+  //logRoles,
+  //prettyDOM,
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { SpinnerMultiColor } from '../spiner/spiners';

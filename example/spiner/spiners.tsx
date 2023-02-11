@@ -11,18 +11,21 @@ interface Props {
   firstSectionStyle?: {};
   secondSectionStyle?: {};
   thirdSectionStyle?: {};
-  sizeStyle?: {};
+  sizeStyle?: {
+    width: undefined | string;
+    height: undefined | string;
+  };
 }
 
 export const SpinnerMultiColor: React.FC<Props> = ({
-  firstColor: firstColor,
-  secondColor: secondColor,
-  thirdColor: thirdColor,
+  //firstColor: firstColor,
+  //secondColor: secondColor,
+  //thirdColor: thirdColor,
   text: text,
   textStyle: textStyle,
-  firstSectionStyle: firstSectionStyle,
-  secondSectionStyle: secondSectionStyle,
-  thirdSectionStyle: thirdSectionStyle,
+  //firstSectionStyle: firstSectionStyle,
+  //secondSectionStyle: secondSectionStyle,
+  //thirdSectionStyle: thirdSectionStyle,
   sizeStyle: sizeStyle,
 }) => {
   // text --------
