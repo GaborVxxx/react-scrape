@@ -10,43 +10,53 @@ import {
   TransformSliderData2,
 } from './sliders/placeholder-data';
 
+import { SpinnerMultiColor } from './spiner/spiners';
+
 import useImagePreloader from './hooks/preload-image-hook';
 import * as console from 'console';
 
-//TODO: find out why the parcel is not working and update the app when componnet chnages...
-//TODO: Its rendering from its own folder but not from the other folder
-
 const App = () => {
-  //TODO: fix useImagePreloader
-  //TODO: fix in all case auto play speed has to be grater than speed!
-  /*
-    const list: string[] = []
-    for(let i of TransformSliderData){
-        list.push(i.img_url)
-    }
+  const list: string[] = [];
+  for (let i of TransformSliderData) {
+    list.push(i.img_url);
+  }
 
-    const { imagesPreloaded } = useImagePreloader(list)
+  const { imagesPreloaded } = useImagePreloader(list);
 
-    if (!imagesPreloaded) {
-        console.log('Loading')
-    }
-    if (imagesPreloaded) {
-        console.log('Done')
-    }
+  if (!imagesPreloaded) {
+    //console.log('Loading')
+  }
+  if (imagesPreloaded) {
+    //console.log('Done')
+  }
 
-    const [loading, setLoading] = React.useState(false)
+  return (
+    <>
+      <div
+        style={{
+          width: '100%',
+          height: window.innerHeight,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <SpinnerMultiColor
+          textStyle={{ fontSize: '0.7rem' }}
+          text={'Test'}
+          sizeStyle={{ height: '110px', width: '110px' }}
+          firstSectionStyle={{ height: '50%', width: '50%' }}
+        />
+      </div>
+    </>
+  );
 
-    React.useEffect(() => {
-        if (imagesPreloaded) {
-            setLoading(true)
-        }
-        return () => setLoading(false)
-    },[imagesPreloaded,setLoading])
-
+  /*---------------------------------------------------------------------------
+    // TransformSlider with preloading images
   return (
     <div style={{ width: '100%', height: window.innerHeight }}>
         {
-            loading ?
+            imagesPreloaded ?
                 <>
                     <TransformSlider
                         prop={TransformSliderData}
@@ -59,7 +69,7 @@ const App = () => {
                         style={{ borderRadius: '10px' }}
                         buttonStyle={{ opacity: 0.5 }}
                         autoPlay={true}
-                        autoPlaySpeed={2}
+                        autoPlaySpeed={2.6}
                         titlePosition={'bottom'}
                         showTitle={true}
                         titleStyle={{color:'red', fontSize:25}}
@@ -72,8 +82,11 @@ const App = () => {
         }
     </div>
   );
+
      */
 
+  /*-------------------------------------------------------------------------
+    // TransformSlider with no loading
   return (
     <div style={{ width: '100%', height: window.innerHeight }}>
       <TransformSlider
@@ -94,6 +107,8 @@ const App = () => {
       />
     </div>
   );
+
+     */
 };
 
 const root = ReactDOM.createRoot(

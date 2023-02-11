@@ -139,7 +139,7 @@ const TitleContainer = styled.div<{
 }>`
   ${(p) => p.position}: 0;
   animation: ${(p) => (p.position === 'top' ? fadeInTop : fadeInBottom)}
-    ${(p) => p.transition / 2}s ease;
+    ${(p) => p.transition / 2}s ease-in;
   overflow: hidden;
   position: absolute;
   width: 100%;

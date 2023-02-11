@@ -6,9 +6,14 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "start:W": "tsdx watch"
+    "start:W": "tsdx watch",
+    "test": "tsdx test --passWithNoTests",
+    "test:W": "jest"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/jest": "^29.4.0",
     "react": "^18.2.0",
     "react-app-polyfill": "^1.0.0",
     "react-dom": "^18.2.0"
