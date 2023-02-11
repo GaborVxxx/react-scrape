@@ -87,7 +87,7 @@ const App = () => {
         style={{ borderRadius: '10px' }}
         buttonStyle={{ opacity: 0.5 }}
         autoPlay={true}
-        autoPlaySpeed={2.3}
+        autoPlaySpeed={2.6}
         titlePosition={'bottom'}
         showTitle={true}
         titleStyle={{ color: 'red', fontSize: 25 }}

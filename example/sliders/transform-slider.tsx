@@ -391,8 +391,8 @@ export const TransformSlider: React.FC<Prop> = ({
   // transition speed ----------
   const [trans, setTrans] = React.useState(1);
   const speedLimit = [
-    0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2,
-    2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3,
+    0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8,
+    1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3,
   ];
 
   React.useEffect(() => {
@@ -509,70 +509,135 @@ export const TransformSlider: React.FC<Prop> = ({
     };
   }, [next, length]);
 
+  // braking error state --------
+  const [breakingError, setBreakingError] = React.useState('');
+
+  // not allow the "autoPlaySpeed" to be faster or equal to the transition time of the image ---------
+  // 2^3 = 8 There are 8 possible combination
+  //-----------------------------------------
+  // 1: !!! speed + autoPlay + autoPlaySpeed = All value set. But IF autoPlaySpeed is not greater than speed with minimum of 0.5s the animation will break. Show ERROR and require correcting action.
+  // 2: !!! speed + autoPlay = Value set on animation speed and autoPlay is on. In this case the speed hase to be lower than the default autoplay speed with 0.5s or we need to set greater autoPlaySpeed then the speed specified.
+  // 3: speed + autoPlaySpeed = Value set on speed and autoPlaySpeed. Speed value is used in animation and button ignore but other value is not used at all as long as the autoPlay is OFF.
+  // 4: !!! autoPlay + autoPlaySpeed = Value set, auto play on and auto play speed set too but IF autoPlaySpeed is not greater than the default transition speed with 0.6 sec it will break transition animation. So we show ERROR and require correcting action.
+  // 5: autoPlay = Value set and auto play ON and use default value for speed and auto play speed
+  // 6: speed = Value set and used for image transition + button disable
+  // 7: autoPlaySpeed = Value set but never used...
+  // 8: none = Default value
+  //------------------------------------------
+  React.useEffect(() => {
+    if (transition && autoPlaySpeed && autoPlay) {
+      // 1 Can be breaking condition
+      if (autoPlaySpeed <= transition + 0.5) {
+        setBreakingError(
+          'BREAKING ERROR! If speed, autoPlay, autoPlaySpeed set as prop. autoPlaySpeed hase to be greater than speed with minimum of 0.6s or animation will break.'
+        );
+        console.error(
+          `TransformSlider component : BREAKING ERROR! If speed, autoPlay, autoPlaySpeed set as prop. autoPlaySpeed hase to be greater than speed with minimum of 0.6s or animation will break.`
+        );
+      }
+    } else if (transition && autoPlay) {
+      // 2 Can be breaking condition
+      if (transition + 0.5 >= autoPlaySpeedState) {
+        setBreakingError(
+          'BREAKING ERROR! If speed and autoPlay set as prop. The speed can not be greater then the autoPlay default value (3s). It needs a 0.5s gap so speed has to be 0.6s slower the the default autoPlaySpeed, or set an autoPaySpeed as a prop and make sure its value is minimum 0.6s greater then the speed set.'
+        );
+        console.error(
+          `TransformSlider component : BREAKING ERROR! If speed and autoPlay set as prop. The speed can not be greater then the autoPlay default value (3s). It needs a 0.5s gap so speed has to be 0.6s slower the the default autoPlaySpeed, or set an autoPaySpeed as a prop and make sure its value is minimum 0.6s greater then the speed set.`
+        );
+      }
+    } else if (autoPlay && autoPlaySpeed) {
+      // 4 Can be breaking condition
+      if (autoPlaySpeed <= trans + 0.5) {
+        setBreakingError(
+          'BREAKING ERROR! If autoPlay and autoPlaySpeed set. But autoPaySpeed is not greater than the default speed (1s), the animation will be broken. Please change the autoPlaySpeed to minimum of 1.6s or add a speed prop to the component. That is minimum 0.6s greater than the autoPlaySpeed.'
+        );
+        console.error(
+          `TransformSlider component : BREAKING ERROR! If autoPlay and autoPlaySpeed set. But autoPaySpeed is not greater than the default speed (1s), the animation will be broken. Please change the autoPlaySpeed to minimum of 1.6s or add a speed prop to the component. That is minimum 0.6s greater than the autoPlaySpeed.`
+        );
+      }
+    }
+  }, [transition, autoPlaySpeed, trans, autoPlay, autoPlaySpeedState]);
+
   return (
     <>
-      {updated ? (
+      {breakingError ? (
         <>
-          <Slider>
-            {buttonDisable ? (
-              <>
-                <LeftArrow
-                  onClick={() => prevSlide(trans)}
-                  color={color}
-                  dist={arrowD}
-                  style={b_style}
-                >
-                  {leftArrow}
-                </LeftArrow>
-                <RightArrow
-                  onClick={() => nextSlide(trans)}
-                  color={color}
-                  dist={arrowD}
-                  style={b_style}
-                >
-                  {rightArrow}
-                </RightArrow>
-              </>
-            ) : (
-              <>
-                <LeftArrow color={color} dist={arrowD} style={b_style}>
-                  {leftArrow}
-                </LeftArrow>
-                <RightArrow color={color} dist={arrowD} style={b_style}>
-                  {rightArrow}
-                </RightArrow>
-              </>
-            )}
-            {loaded ? (
-              <ImageContainer
-                url={prop[next].img_url}
-                width={w / ratio}
-                transition={trans}
-                height={height}
-                style={imgStyle}
-              >
-                {showTitleState ? (
-                  <>
-                    <TitleContainer
-                      key={prop[next].title ? prop[next].title : null}
-                      transition={trans}
-                      position={titlePositionState}
-                    >
-                      <Title style={t_style}>
-                        {prop[next].title ? prop[next].title : null}
-                      </Title>
-                    </TitleContainer>
-                  </>
-                ) : null}
-              </ImageContainer>
-            ) : null}
-          </Slider>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <span style={{ color: 'red' }}>{breakingError}</span>
+          </div>
         </>
       ) : (
         <>
-          <h2 style={{ textAlign: 'center' }}>
-            ERROR! Can not display the images.
-          </h2>
+          {updated ? (
+            <>
+              <Slider>
+                {buttonDisable ? (
+                  <>
+                    <LeftArrow
+                      onClick={() => prevSlide(trans)}
+                      color={color}
+                      dist={arrowD}
+                      style={b_style}
+                    >
+                      {leftArrow}
+                    </LeftArrow>
+                    <RightArrow
+                      onClick={() => nextSlide(trans)}
+                      color={color}
+                      dist={arrowD}
+                      style={b_style}
+                    >
+                      {rightArrow}
+                    </RightArrow>
+                  </>
+                ) : (
+                  <>
+                    <LeftArrow color={color} dist={arrowD} style={b_style}>
+                      {leftArrow}
+                    </LeftArrow>
+                    <RightArrow color={color} dist={arrowD} style={b_style}>
+                      {rightArrow}
+                    </RightArrow>
+                  </>
+                )}
+                {loaded ? (
+                  <ImageContainer
+                    url={prop[next].img_url}
+                    width={w / ratio}
+                    transition={trans}
+                    height={height}
+                    style={imgStyle}
+                  >
+                    {showTitleState ? (
+                      <>
+                        <TitleContainer
+                          key={prop[next].title ? prop[next].title : null}
+                          transition={trans}
+                          position={titlePositionState}
+                        >
+                          <Title style={t_style}>
+                            {prop[next].title ? prop[next].title : null}
+                          </Title>
+                        </TitleContainer>
+                      </>
+                    ) : null}
+                  </ImageContainer>
+                ) : null}
+              </Slider>
+            </>
+          ) : (
+            <>
+              <h2 style={{ textAlign: 'center' }}>
+                ERROR! Can not display the images.
+              </h2>
+            </>
+          )}
         </>
       )}
     </>
