@@ -6,3 +6,4 @@ example/.parcel-cache
 example/.cache
 example/node_modules
 example/package-lock.json
+coverage
