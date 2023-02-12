@@ -67,3 +67,38 @@ describe('Spinner container additional style', () => {
     expect(container.style.width).toBe('100px');
   });
 });
+
+describe('Adding additional style for all segments', () => {
+  test('Set different color for first segment', async () => {
+    render(
+      <SpinnerMultiColor
+        firstSectionStyle={{
+          borderTopColor: 'gray',
+        }}
+      />
+    );
+    const first = await screen.findByTestId('first');
+    expect(first).toBeInTheDocument();
+    expect(first.style.borderTopColor).toBe('gray');
+  });
+  test('Set different color for second segment', async () => {
+    render(
+      <SpinnerMultiColor
+        secondSectionStyle={{
+          borderLeftColor: 'yellow',
+        }}
+      />
+    );
+    const se = await screen.findByTestId('second');
+    expect(se).toBeInTheDocument();
+    expect(se.style.borderLeftColor).toBe('yellow');
+  });
+  test('Set different color for third segment', async () => {
+    render(
+      <SpinnerMultiColor thirdSectionStyle={{ borderRightColor: 'black' }} />
+    );
+    const th = await screen.findByTestId('third');
+    expect(th).toBeInTheDocument();
+    expect(th.style.borderRightColor).toBe('black');
+  });
+});

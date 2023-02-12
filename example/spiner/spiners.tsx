@@ -3,9 +3,6 @@ import './spinner.css';
 
 // Tested: text, textStyle, sizeStyle,
 interface Props {
-  firstColor?: string;
-  secondColor?: string;
-  thirdColor?: string;
   text?: string;
   textStyle?: {};
   firstSectionStyle?: {};
@@ -18,14 +15,11 @@ interface Props {
 }
 
 export const SpinnerMultiColor: React.FC<Props> = ({
-  //firstColor: firstColor,
-  //secondColor: secondColor,
-  //thirdColor: thirdColor,
   text: text,
   textStyle: textStyle,
-  //firstSectionStyle: firstSectionStyle,
-  //secondSectionStyle: secondSectionStyle,
-  //thirdSectionStyle: thirdSectionStyle,
+  firstSectionStyle: firstSectionStyle,
+  secondSectionStyle: secondSectionStyle,
+  thirdSectionStyle: thirdSectionStyle,
   sizeStyle: sizeStyle,
 }) => {
   // text --------
@@ -86,8 +80,60 @@ export const SpinnerMultiColor: React.FC<Props> = ({
     return () => setSpinnerSize({});
   }, [sizeStyle, setSpinnerSize]);
 
-  // first color ---------
-  //TODO: how to control the color and additional styles passed to sections?
+  // additional style for sections --------
+  //TOP -----
+  const [first, setFirst] = React.useState({
+    borderTopColor: 'red',
+  });
+
+  React.useEffect(() => {
+    if (firstSectionStyle) {
+      setFirst({
+        ...first,
+        ...firstSectionStyle,
+      });
+    }
+    return () =>
+      setFirst({
+        borderTopColor: 'red',
+      });
+  }, [setFirst, firstSectionStyle]);
+
+  //LEFT -----
+  const [leftS, setSecond] = React.useState({
+    borderLeftColor: 'blue',
+  });
+
+  React.useEffect(() => {
+    if (secondSectionStyle) {
+      setSecond({
+        ...leftS,
+        ...secondSectionStyle,
+      });
+    }
+    return () =>
+      setSecond({
+        borderLeftColor: 'blue',
+      });
+  }, [setSecond, secondSectionStyle]);
+
+  //RIGHT -----
+  const [rightS, setRightS] = React.useState({
+    borderRightColor: 'green',
+  });
+
+  React.useEffect(() => {
+    if (thirdSectionStyle) {
+      setRightS({
+        ...rightS,
+        ...thirdSectionStyle,
+      });
+    }
+    return () =>
+      setRightS({
+        borderRightColor: 'green',
+      });
+  }, [thirdSectionStyle, setRightS]);
 
   return (
     <div
@@ -96,13 +142,17 @@ export const SpinnerMultiColor: React.FC<Props> = ({
       style={spinnerSize ? spinnerSize : undefined}
     >
       <span style={textStyleT ? textStyleT : undefined}>{textT}</span>
+      <div className={'spinner-sector-one'} data-testid="first" style={first} />
       <div
-        className={'spinner-sector-one'}
-        data-testid="first"
-        //style={colorS.first}
+        className={'spinner-sector-two'}
+        data-testid="second"
+        style={leftS}
       />
-      <div className={'spinner-sector-two'} data-testid="second" />
-      <div className={'spinner-sector-three'} data-testid="third" />
+      <div
+        className={'spinner-sector-three'}
+        data-testid="third"
+        style={rightS}
+      />
     </div>
   );
 };

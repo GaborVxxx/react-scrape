@@ -42,10 +42,12 @@ const App = () => {
         }}
       >
         <SpinnerMultiColor
-          textStyle={{ fontSize: '0.7rem' }}
+          textStyle={{ fontSize: '1rem' }}
           text={'Test'}
           sizeStyle={{ height: '110px', width: '110px' }}
-          firstSectionStyle={{ height: '50%', width: '50%' }}
+          firstSectionStyle={{ borderTopColor: 'gray' }}
+          secondSectionStyle={{ borderLeftColor: 'yellow' }}
+          thirdSectionStyle={{ borderRightColor: 'black' }}
         />
       </div>
     </>
