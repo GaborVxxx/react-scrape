@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './spinner.css';
+import styles from './style.module.css';
 
 // Tested: text, textStyle, sizeStyle,
 export interface Props {
@@ -143,17 +143,17 @@ export const SpinnerMultiColor: React.FC<Props> = ({
     >
       <span style={textStyleT ? textStyleT : undefined}>{textT}</span>
       <div
-        className={styles.spinner_sector_one}
+        className={styles.spinnerSectorOne}
         data-testid="first"
         style={first}
       />
       <div
-        className={styles.spinner_sector_two}
+        className={styles.spinnerSectorTwo}
         data-testid="second"
         style={leftS}
       />
       <div
-        className={styles.spinner_sector_three}
+        className={styles.spinnerSectorThree}
         data-testid="third"
         style={rightS}
       />

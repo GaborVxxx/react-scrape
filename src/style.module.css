@@ -16,7 +16,7 @@
   animation: text 2s ease infinite;
 }
 
-.spinner_sector_one {
+.spinnerSectorOne {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -27,7 +27,7 @@
   opacity: 0.5;
 }
 
-.spinner_sector_two {
+.spinnerSectorTwo {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -38,7 +38,7 @@
   opacity: 0.5;
 }
 
-.spinner_sector_three {
+.spinnerSectorThree {
   position: absolute;
   width: 100%;
   height: 100%;
