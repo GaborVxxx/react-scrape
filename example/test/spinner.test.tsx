@@ -8,8 +8,7 @@ import {
   //prettyDOM,
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import {SpinnerMultiColor} from "../spiner/spiners";
-
+import { SpinnerMultiColor } from '../spiner/spiners';
 
 describe('SpinnerMultiColor', () => {
   test('Render first div for SpinnerMultiColor with the Loading text inside', async () => {
