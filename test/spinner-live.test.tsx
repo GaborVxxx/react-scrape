@@ -10,6 +10,7 @@ import {
 import '@testing-library/jest-dom/extend-expect';
 import { SpinnerMultiColor } from '../src';
 
+
 describe('SpinnerMultiColor', () => {
   test('Render first div for SpinnerMultiColor with the Loading text inside', async () => {
     render(<SpinnerMultiColor />);
