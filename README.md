@@ -46,9 +46,69 @@ function App() {
 
 ### Output
 
-![Spinner gif](./assests/Spinner%201.gif)
-
+![Spinner gif 1](./assests/Spinner%201.gif)
 
 ---
 
 ## Customize the component
+
+You can use parameters to send additional style in to the component.
+
+- textStyle={ }
+- text={ }
+- sizeStyle={ }
+- firstSectionStyle={ }
+- secondSectionStyle={ }
+- thirdSectionStyle={ }
+
+NOTE: If you like to change a color of a specific use the following combination.
+
+- firstSectionStyle={{ borderTopColor: ' ' }} <-- the first segment you see is the "borderTopColor" css property.
+- secondSectionStyle={{ borderLeftColor: ' ' }} <-- the second segment you see is the "borderLeftColor" css property.
+- thirdSectionStyle={{ borderRightColor: ' ' }} <-- the third segment you see is the "borderRightColor" css property.
+
+---
+
+## Example
+
+```javascript
+// costumize the component with parameters
+function App() {
+  return (
+    <div>
+      <SpinnerMultiColor
+        textStyle={{ fontSize: '1rem', fontFamily: 'Times New Roman' }}
+        text={'foo'}
+        sizeStyle={{ height: '110px', width: '110px' }}
+        firstSectionStyle={{ borderTopColor: 'purple' }}
+        secondSectionStyle={{ borderLeftColor: 'yellow' }}
+        thirdSectionStyle={{ borderRightColor: 'black' }}
+      />
+    </div>
+  );
+}
+```
+
+You can essentially push any additional css to the component and override its default css. Except the keyframe.
+
+### Output
+
+![Spinner gif 2](./assests/Spinner%202.gif)
+
+---
+
+## Contributing
+
+Info coming soon on how to contribute and what rules will be set. So please stay tuned.
+
+---
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+## You can find me
+
+[https://www.thriveoncode.co.uk/](https://www.thriveoncode.co.uk/)
+
+[LinkedIn](https://www.linkedin.com/in/gabor-vaszi-329b54212/)
