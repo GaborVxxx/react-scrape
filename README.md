@@ -1,3 +1,7 @@
+![](https://github.com/GaborVxxx/react-scrape/workflows/CI/badge.svg?branch=main&event=push)
+
+---
+
 # React-scrape
 
 ## Re-usable react Typescript components and functions.
