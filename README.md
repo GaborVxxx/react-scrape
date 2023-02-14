@@ -44,6 +44,11 @@ function App() {
 }
 ```
 
+### Output
+
+![Spinner gif](./assests/Spinner%201.gif)
+
+
 ---
 
 ## Customize the component
