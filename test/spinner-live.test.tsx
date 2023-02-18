@@ -57,6 +57,13 @@ describe('Text prop', () => {
     //console.debug(textStyle.style)
     expect(textStyle.style.fontSize).toBe('0.5rem');
   });
+  test('Text additional style different color', async () => {
+    render(<SpinnerMultiColor textStyle={{ color: 'red' }} />);
+    const textStyle = await screen.findByText('Loading');
+    expect(textStyle).toBeInTheDocument();
+    //console.debug(textStyle.style)
+    expect(textStyle.style.color).toBe('red');
+  });
 });
 
 describe('Spinner container additional style', () => {

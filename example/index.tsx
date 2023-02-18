@@ -1,7 +1,6 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-//import {Thing} from "../src/";
 
 //TransformSlider
 import { TransformSlider } from './sliders/transform-slider';
@@ -11,6 +10,7 @@ import {
 } from './sliders/placeholder-data';
 
 import { SpinnerMultiColor } from './spiner/spiners';
+import { Bouncer } from './spiner/bouncer';
 
 import useImagePreloader from './hooks/preload-image-hook';
 import * as console from 'console';
@@ -41,8 +41,35 @@ const App = () => {
           alignItems: 'center',
         }}
       >
+        {/*
+                <Bouncer
+                    text={'Test'}
+                    //displayText={'off'}
+                    textStyle={{fontWeight:'bold',color:'white'}}
+                    containerStyle={{backgroundColor:'black'}}
+                    bouncerStyle={{backgroundColor:'white', borderRadius:'0%'}}
+                />
+                */}
+        <Bouncer />
+      </div>
+    </>
+  );
+
+  /* -----------------------------------------------------
+  // SpinnerMultiColor
+  return (
+    <>
+      <div
+        style={{
+          width: '100%',
+          height: window.innerHeight,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <SpinnerMultiColor
-          textStyle={{ fontSize: '1rem' }}
+          textStyle={{ fontSize: '1rem', color:'red'}}
           text={'Test'}
           sizeStyle={{ height: '110px', width: '110px' }}
           firstSectionStyle={{ borderTopColor: 'gray' }}
@@ -52,6 +79,8 @@ const App = () => {
       </div>
     </>
   );
+
+   */
 
   /*---------------------------------------------------------------------------
     // TransformSlider with preloading images

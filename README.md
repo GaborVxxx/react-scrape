@@ -50,7 +50,7 @@ function App() {
 
 ### Output
 
-![Spinner gif 1](./assests/Spinner%201.gif)
+![Spinner gif 1](assets/Spinner%201.gif)
 
 ---
 
@@ -97,7 +97,7 @@ You can essentially push any additional css to the component and override its de
 
 ### Output
 
-![Spinner gif 2](./assests/Spinner%202.gif)
+![Spinner gif 2](assets/Spinner%202.gif)
 
 ---
 
