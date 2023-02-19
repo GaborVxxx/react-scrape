@@ -1,5 +1,5 @@
 {
-  "version": "0.1.8",
+  "version": "0.1.9",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -67,6 +67,7 @@
     "@testing-library/react": "^13.4.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@types/styled-components": "^5.1.26",
     "husky": "^8.0.3",
     "prettier": "2.8.3",
     "react": "^18.2.0",
@@ -75,13 +76,12 @@
     "size-limit": "^8.1.2",
     "tsdx": "^0.14.1",
     "tslib": "^2.5.0",
-    "typescript": "^3.9.10"
+    "typescript": "^3.9.10",
+    "styled-components": "^5.3.6"
   },
   "dependencies": {
-    "@types/styled-components": "^5.1.26",
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
-    "react-icons": "^4.7.1",
-    "styled-components": "^5.3.6"
+    "react-icons": "^4.7.1"
   }
 }

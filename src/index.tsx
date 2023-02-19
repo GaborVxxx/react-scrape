@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styles from './style.module.css';
+export * from '../src/bouncer/bouncer';
 
+//Keep this here for now as I dont want to implement a breaking change.--------
 // Tested: text, textStyle, sizeStyle,
 export interface Props {
   text?: string;
@@ -160,3 +162,4 @@ export const SpinnerMultiColor: React.FC<Props> = ({
     </div>
   );
 };
+//-------------------------------------------------------------------------------
