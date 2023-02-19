@@ -145,7 +145,7 @@ export const SpinnerMultiColor: React.FC<Props> = ({
     >
       <span
         style={textStyleT ? textStyleT : undefined}
-        className={'spinner-span'}
+        className={styles.spinnerSpan}
       >
         {textT}
       </span>

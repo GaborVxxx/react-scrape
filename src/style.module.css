@@ -15,7 +15,7 @@
   position: relative;
 }
 
-.spinner-span {
+.spinnerSpan {
   animation: text-an 2s ease infinite;
 }
 
