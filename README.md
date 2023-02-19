@@ -6,7 +6,7 @@
 
 ## Re-usable react Typescript components and functions.
 
-###This project is still in its early days and in development.
+### This project is still in its early days and in development.
 
 ### Available components
 
