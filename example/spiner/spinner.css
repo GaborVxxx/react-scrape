@@ -13,7 +13,10 @@
   font-size: 0.6rem;
   overflow: hidden;
   position: relative;
-  animation: text 2s ease infinite;
+}
+
+.spinner-span {
+  animation: text-an 2s ease infinite;
 }
 
 .spinner-sector-one {
@@ -58,7 +61,7 @@
   }
 }
 
-@keyframes text {
+@keyframes text-an {
   0%,
   100% {
     opacity: 1;

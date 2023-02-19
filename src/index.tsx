@@ -143,7 +143,12 @@ export const SpinnerMultiColor: React.FC<Props> = ({
       data-testid="container"
       style={spinnerSize ? spinnerSize : undefined}
     >
-      <span style={textStyleT ? textStyleT : undefined}>{textT}</span>
+      <span
+        style={textStyleT ? textStyleT : undefined}
+        className={'spinner-span'}
+      >
+        {textT}
+      </span>
       <div
         className={styles.spinnerSectorOne}
         data-testid="first"

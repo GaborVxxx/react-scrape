@@ -51,6 +51,14 @@ const App = () => {
                 />
                 */}
         <Bouncer />
+        <SpinnerMultiColor
+          textStyle={{ fontSize: '1rem', color: 'red' }}
+          text={'Test'}
+          sizeStyle={{ height: '110px', width: '110px' }}
+          firstSectionStyle={{ borderTopColor: 'gray' }}
+          secondSectionStyle={{ borderLeftColor: 'yellow' }}
+          thirdSectionStyle={{ borderRightColor: 'black' }}
+        />
       </div>
     </>
   );
