@@ -8,9 +8,16 @@
 
 ###This project is still in its early days and in development.
 
-But we have a first re-usable component for you. 🥳
+### Available components
+
+- SpinnerMultiColor
+- Bouncer
 
 ---
+
+---
+
+## SpinnerMultiColor
 
 ## Installation
 
@@ -23,8 +30,6 @@ npm i react-scrape
 ---
 
 ## Basic Usage
-
-###SpinnerMultiColor
 
 This is a customisable loading spinner. Zero config out of the box. But flexible and easy to customize.
 
@@ -101,6 +106,116 @@ You can essentially push any additional css to the component and override its de
 
 ---
 
+---
+
+## Bouncer
+
+## Installation
+
+Use the package manager [npm](https://www.npmjs.com/) to install react-scrape.
+
+```bash
+npm i react-scrape
+```
+
+---
+
+## Basic Usage
+
+This is a customisable loading bouncer. Zero config out of the box. But flexible and easy to customize.
+
+#### Use case
+
+As all bouncer it`s a placeholder while data is in the process or user need to wait for any action.
+Mainly loading or fetching data.
+
+```javascript
+// import the component and the css file provide the style.
+import { Bouncer } from 'react-scrape'; //<-- the componenet
+import 'react-scrape/src/bouncer/bouncer.css'; //<-- the css provide the default style
+
+// pluge it in anywhere you need a loading bouncer.
+function App() {
+  return (
+    <div>
+      <Bouncer />
+    </div>
+  );
+}
+```
+
+### Output
+
+![Spinner gif 1](assests/Bouncer%20No%20Props%20gif.gif)
+
+---
+
+## Customize the component
+
+You can use parameters to send additional style in to the component.
+
+- text={ }
+- displayText={ }
+- textStyle={ }
+- containerStyle={ }
+- bouncerStyle={ }
+
+NOTE: If you like to remove the text and have the bouncing elements only you have to pass the "off" string value to displayText prop. If you like to add text back just remove the displayText prop as it is.
+
+---
+
+## Example
+
+```javascript
+// costumize the component with parameters
+function App() {
+  return (
+    <div>
+      <Bouncer
+        text={'Foo'}
+        textStyle={{ fontWeight: 'bold', color: '#40a35a' }}
+        containerStyle={{
+          backgroundColor: '#f7f7f7',
+          boxShadow: '0px 0px 4px 4px #40a35a',
+          borderRadius: '5px',
+        }}
+        bouncerStyle={{ backgroundColor: '#40a35a', borderRadius: '0%' }}
+      />
+    </div>
+  );
+}
+```
+
+You can essentially push any additional css to the component and override its default css. Except the keyframe.
+
+### Output
+
+![Spinner gif 2](assests/Bouncer%20with%20props%20gif.gif)
+
+---
+
+### Example for text off
+
+```javascript
+// costumize the component with parameters
+function App() {
+  return (
+    <div>
+      <Bouncer
+        displayText={'off'}
+        bouncerStyle={{ backgroundColor: '#40a35a', borderRadius: '0%' }}
+      />
+    </div>
+  );
+}
+```
+
+### Output
+
+![Spinner gif 2](assests/Bouncer%20No%20Text%20gif.gif)
+
+---
+
 ## Contributing
 
 Info coming soon on how to contribute and what rules will be set. So please stay tuned.
@@ -110,6 +225,8 @@ Info coming soon on how to contribute and what rules will be set. So please stay
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+---
 
 ## You can find me
 
